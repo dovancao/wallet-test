@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initialscale=1,
+shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <sccript type="text/javascript" src="../node_modules/ethereumjs-util/dist/index.js"></sccript>
+</head>
+<body>
+
+<div class ="container">
+<div class="col-md-6 offset-md-3">
+    <br>
+    <div class="alert alert-info" id="info" role="alert">
+        Create or use your existing wallet.
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="seed">Enter 12-word seed</label>
+            <input type="text" class="form-control" id="seed">
+        </div>
+        <button type="button" class="btn btn-primary" id="gDetail">Generate Details</button>
+        <button type="button" class="btn btn-primary" id="gSeed">Generate New Seed</button>
+    </form>
+    <hr>
+    <h2 class="text-xs-center">Address, Keys and Balances
+        of the seed</h2>
+    <ol id="list">
+    </ol>
+    <hr>
+
+<h1>Bat dau gui hop dong</h1>
+<h2 id="label"></h2>
+<hr>
+<form>
+    <div class="form-group">
+        <label for="fromAdress" class="col-lg-2 control-label">From Adress</label>
+        <input id="fromAdress" type="text" aria-describedby="addressNotice">
+        <small id="addressNotice" class="form-text text-muted">We'll never share you address with anyone</small>
+    </div>
+    <div class="form-group">
+        <label for="fName" class="col-lg-2 control-label">First Name</label>
+        <input id="fName" type="text">
+    </div>
+    <div class="form-group">
+        <label for="lName" class="col-lg-2 control-label">Last Name</label>
+        <input id="lName" type="text">
+    </div>
+    <button id="button" type="button">Update To Blockchain</button>
+
+</form>
+</div>
+</div>
+<script src="/js/main.js"></script>
+<script src="/js/lightwallet.min.js"></script>
+<script src="/js/hooked-web3-provider.min.js"></script>
+</body>
+</html>
