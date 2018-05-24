@@ -1,0 +1,54 @@
+
+<body>
+
+<div class ="container">
+<div class="col-md-6 offset-md-3">
+    <br>
+    <div class="alert alert-info" id="info" role="alert">
+        Create or use your existing wallet.
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="seed">Enter 12-word seed</label>
+            <input type="text" class="form-control"
+                   id="seed">
+        </div>
+        <button type="button" class="btn btn-primary"
+                onclick="generate_addresses()">Generate Details</button>
+        <button type="button" class="btn btn-primary"
+                onclick="generate_seed()">Generate New Seed</button>
+    </form>
+    <hr>
+    <h2 class="text-xs-center">Address, Keys and Balances
+        of the seed</h2>
+    <ol id="list">
+    </ol>
+    <hr>
+</div>
+</div>
+
+<div class="Container">
+<h1>Bat dau gui hop dong</h1>
+<h2 id="label"></h2>
+<hr>
+<form action="/submit" method="POST">
+    <div class="form-group">
+        <label for="fromAdress" class="col-lg-2 control-label" name='fromAdress'>From Adress</label>
+        <input id="fromAdress" type="text" aria-describedby="addressNotice">
+        <small id="addressNotice" class="form-text text-muted">We'll never share you address with anyone</small>
+    </div>
+    <div class="form-group">
+        <label for="fName" class="col-lg-2 control-label" name ="fName">First Name</label>
+        <input id="fName" type="text">
+    </div>
+    <div class="form-group">
+        <label for="lName" class="col-lg-2 control-label" name ='lName'>Last Name</label>
+        <input id="lName" type="text">
+    </div>
+    <button id="button" type="submit" name='update'>Update To Blockchain</button>
+
+</form>
+</div>
+
+</body>
+</html>
