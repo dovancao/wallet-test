@@ -65,7 +65,7 @@ GenerateSeed using LightWallet
 Generate Address using LightWallet
 ```
 
-#Thing isn't done
+# Thing isn't done
 
 We tried to sign transaction of contract but it was rejected
 
