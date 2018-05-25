@@ -1,24 +1,48 @@
-# wallet-test
+# Wallet-test (Online Wallet)
 We create an online wallet to test "Set Function" with Lightwallet and Hooked-Web3-provider
 
-If it is succeed, we run all smart contract in Contract Folder.
 
-Contract Folder contains
+If it is succeed, main function of wallet will be:
+* Generate address and private key with user's password.
+* Receive ETH and auto convert to X Token, keep X Token after crowsale ended.
+* Send X Token to another wallet.
+
+
+Main Contract Folder contains
 ```
-CTKCrowdsale.sol , Mytoken.sol
+CTKCrowdsale.sol , Mytoken.sol, ERC20.sol, ERC233.sol, SafeMath.sol, Token.sol
 ```
-# Used Tools
+
+# Built With
+
+* [LightWallet](https://github.com/ConsenSys/eth-lightwallet): Create seed, address and sign transaction
+* [Hooked-Web3-Provider](https://github.com/ConsenSys/hooked-web3-provider): Allow to "hook in" an external transaction signer
+* [Web3js](https://github.com/ethereum/web3.js/) : This is the Ethereum compatible JavaScript API
+
+# About And Installing
+
+1, Installed tools
+
 ```
-LightWallet
-Hooked-Web3-Provider
+npm install lightwallet
+npm install hooked-web3-provider
 ```
-# About
-We ran ETH dev to start full node on http://localhost:8545
+
+The eth-lightwallet package contains /js/lightwallet.min.js that can be included in an HTML page
+The hooked-web3-provider  package contains /js/hooked-web3-provider.min.js that can be included in an HTML page
+```
+The file /js/lightwallet.min.js exposes the global object lightwallet to the browser
+The file /js/hooked-web3-provider.min.js hook-in an external signer
+```
+
+2, We ran ETH dev to start full node on http://localhost:8545
+
 ```
  geth --dev --rpc --rpccorsdomain "*" --rpcaddr "0.0.0.0" --rpcport
 "8545" --mine --unlock=0
 ```
-Contract is tested with lightwallet
+
+3, Contract was tested with lightwallet. It was deployed on [REMIX ETHEREUM](https://remix.ethereum.org/)
 
 ```
 contract SendTransaction {
@@ -46,12 +70,24 @@ contract SendTransaction {
 }
 ````
 
-The eth-lightwallet package contains /js/lightwallet.min.js that can be included in an HTML page
-The hooked-web3-provider  package contains /js/hooked-web3-provider.min.js that can be included in an HTML page
+4. Create a nodejs server (app.js file)
 ```
-The file /js/lightwallet.min.js exposes the global object lightwallet to the browser
-The file /js/hooked-web3-provider.min.js exposes the global object lightwallet to the browser
+const express = require('express');
+var app = express();
+
+app.use(express.static("public"));
+
+app.get("/", function(req,res){
+    res.sendFile(__dirname +"/public/html/index.html");
+});
+
+app.listen(4500, function(err){
+    if(err) console.log(err);
+    else console.log("server is up!");
+});
+
 ```
+
 
 The default BIP32 HD derivation path has been m/0'/0'/0'
 
@@ -63,72 +99,5 @@ GenerateSeed using LightWallet
 
 ```
 Generate Address using LightWallet
-```
-
-# Thing isn't done
-
-We tried to sign transaction of contract but it was rejected
-
-```
-lightwallet.keystore.createVault({
-        password: password,
-        seedPhrase: seed,
-        hdPathString: "m/0'/0'/0'"
-    }, function(err, ks){
-        ks.keyFromPassword(password, function(err,pwDerivedKey){
-            if(err){
-                document.getElementById("info").innerHTML = err;
-            }
-            else{
-                ks.generateNewAddress(pwDerivedKey,5);
-                let sendingAddr = ks.getAddresses()[0];
-                ks.passwordProvider = function (callback){
-                    callback(null, password);
-                };
-                
-                /// not yet
-                
-                nonce = web3.eth.getTransactionCount(sendingAddr);
-                nonceHex = web3.toHex(nonce);
-                gasPrice = web3.eth.gasPrice;
-                gasPriceHex = web3.toHex(gasPrice);
-                gasLimitHex = web3.toHex(300000);
-
-                txOptions = {
-                    gasPrice: gasPriceHex,
-                    gasLimit: gasLimitHex,
-                    value: 1000000,
-                    nonce: nonceHex,
-                    data: compiled_code
-                }
-
-                //sendingAddr is needed to compute the contract address
-               let contractData = lightwallet.txutils.createContractTx(sendingAddr, txOptions);
-               let singedTx = lightwallet.singing.singeTx(ks, pwDerivedKey,contractData.tx, sendingAddr);
-               
-               console.log("Signed contract creation tx: "+ singedTx);
-               console.log("");
-               console.log("Contract Adress: " + contractData.addr)
-
-               txOptions.to = contractData.addr;
-
-                // setInfo: fName: son, LNamr: do
-                let setInfoTx = lightwallet.txutils.funntionTx(abi,'setInfo',[sendingAddr,$("#fName").val(),$("#lName").val()],txOptions);
-                let signedSetInfoTx = lightwallet.singing.singeTx(ks,pwDerivedKey,setInfoTx,sendingAddr).toString('hex');
-
-
-                web3.eth.sendTransaction({
-                    from: addresses[0],
-                    to: txOptions.to,
-                    data: signedSetInfoTx,
-                    value: '0x00',
-                    gasPrice: gasPriceHex,
-                    gas: 50000
-                },function(err,txhash){
-                    if(err) console.log(err);
-                    document.getElementById("info").innerHTML = "txn hash: "+txhash;
-                })
-                }
-                });
 ```
 
